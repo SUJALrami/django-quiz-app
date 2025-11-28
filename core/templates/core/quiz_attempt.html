@@ -1,0 +1,36 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="bg-white p-8 rounded-lg shadow-lg max-w-3xl mx-auto">
+    <h2 class="text-3xl font-bold text-gray-800 mb-2">{{ quiz.title }}</h2>
+    <p class="text-gray-600 mb-8">{{ quiz.description }}</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="mb-8 p-4 bg-blue-50 rounded-md">
+            <label class="block text-gray-700 font-bold mb-2">Enter your name to start:</label>
+            <input type="text" name="user_name" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+        </div>
+
+        {% for question in quiz.questions.all %}
+        <div class="mb-8 border-b pb-6 last:border-0">
+            <p class="text-lg font-semibold text-gray-800 mb-4">{{ forloop.counter }}. {{ question.text }}</p>
+            
+            <div class="space-y-3 pl-4">
+                {% for answer in question.answers.all %}
+                <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-50 rounded">
+                    <input type="radio" name="question_{{ question.id }}" value="{{ answer.id }}" required class="form-radio h-5 w-5 text-blue-600">
+                    <span class="text-gray-700">{{ answer.text }}</span>
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold text-lg hover:bg-blue-700 transition mt-4">
+            Submit Answers
+        </button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto text-center bg-white p-10 rounded-lg shadow-xl mt-10">
+    
+    {% if percentage >= 70 %}
+        <div class="text-green-500 text-6xl mb-4">🏆</div>
+        <h2 class="text-3xl font-bold text-green-600 mb-2">Great Job, {{ submission.user_name }}!</h2>
+    {% else %}
+        <div class="text-yellow-500 text-6xl mb-4">📝</div>
+        <h2 class="text-3xl font-bold text-gray-800 mb-2">Completed, {{ submission.user_name }}!</h2>
+    {% endif %}
+
+    <p class="text-gray-600 mb-8">You have completed the <strong>{{ submission.quiz.title }}</strong>.</p>
+
+    <div class="bg-gray-100 p-6 rounded-lg mb-8 inline-block">
+        <p class="text-gray-500 text-sm uppercase font-bold tracking-wide">Your Score</p>
+        <p class="text-5xl font-extrabold text-blue-600 mt-2">{{ submission.score }} <span class="text-2xl text-gray-400">/ {{ total_questions }}</span></p>
+        <p class="mt-2 text-sm font-semibold {{ percentage|yesno:'text-green-600,text-red-600' }}">
+            {{ percentage }}%
+        </p>
+    </div>
+
+    <div class="block">
+        <a href="{% url 'quiz_list' %}" class="inline-block bg-gray-800 text-white px-6 py-2 rounded hover:bg-gray-900 transition">
+            Back to Quizzes
+        </a>
+    </div>
+</div>
+{% endblock %}
